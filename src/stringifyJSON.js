@@ -15,24 +15,22 @@ var stringifyJSON = function (obj) {
   if (typeof obj === 'string') return `"${obj}"`;
   if (typeof obj === 'number') return `${obj}`;
   if (Array.isArray(obj)) {
-    if(obj.length === 0) {
-      return `[]`;
-    }
     let output = [];
-    for (let i = 0; i < obj.length; i++) {
-      let current = obj[i];
-      if (current.length > 1) {
-        output.push(stringifyJSON(current));
-      } else {
-        output.push(current); //maybe add current.toString()
-      }
-    }
-    return output;
-  }
+		for (i=0; i<obj.length;i++) {
+		output.push(stringifyJSON(obj[i]));
+		}
+		return '[' + output + ']';
+	}
   if (typeof obj === 'object') {
     let emptyObjArr = [];
+    let keyValue = Object.keys(obj);
+    if(keyValue.length === 0) {
+      return `{}`;
+    }
     for (let [key, value] of Object.entries(obj)) {
-      emptyObjArr.push(`${stringifyJSON(key)}:${stringifyJSON(value)}`);
+      if(value !== undefined && typeof value !== 'function') {
+        emptyObjArr.push(`${stringifyJSON(key)}:${stringifyJSON(value)}`);
+      }
     }
     let emptyString = emptyObjArr.join(',')
     return '{' + emptyString + '}';
