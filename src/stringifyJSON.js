@@ -23,17 +23,12 @@ var stringifyJSON = function (obj) {
   }
   if (typeof obj === 'object') {
     let emptyObjArr = [];
-    let keyValue = Object.keys(obj);
-    if (keyValue.length === 0) {
-      return `{}`;
-    }
     for (let [key, value] of Object.entries(obj)) {
       if (value !== undefined && typeof value !== 'function') {
         emptyObjArr.push(`${stringifyJSON(key)}:${stringifyJSON(value)}`);
       }
     }
-    let emptyString = emptyObjArr.join(',')
-    return '{' + emptyString + '}';
+    return '{' + emptyObjArr + '}';
   }
 };
 
